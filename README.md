@@ -1,4 +1,5 @@
 # Phonetic
+![](https://travis-ci.org/RamXX/phonetic.svg?branch=master)
 
 Phonetic is a small command line utility written in Rust that takes a text input and prints out the corresponding word for each one of its letters as described in the [NATO Phonetic Alphabet](https://www.nato.int/nato_static_fl2014/assets/pdf/pdf_2018_01/20180111_nato-alphabet-sign-signal.pdf).
 
