@@ -1,13 +1,12 @@
 # Phonetic
-[![Travis CI](https://travis-ci.org/RamXX/phonetic.svg?branch=master)](https://travis-ci.org/github/RamXX/phonetic)
 
 Phonetic is a small command line utility written in Rust that takes a text input and prints out the corresponding word for each one of its letters as described in the [NATO Phonetic Alphabet](https://www.nato.int/nato_static_fl2014/assets/pdf/pdf_2018_01/20180111_nato-alphabet-sign-signal.pdf).
 
 I made this as I grew frustrated when trying to spell reservation codes over the phone to customer service representatives, and never completely learning the proper words for each letter.
 
-Regular numbers and a few common symbols are also spelled out. Unicode or other characters not part of the alphabet are spelled out as `(not represented)`.
+Regular numbers and a few common symbols are also spelled out.
 
-The main function with the business logic takes a string and returns a vector of strings with the names. It is kept in a separate module and can  easily be used in a web service for non command-line applications.
+The main function with the business logic is in a separate module and can  easily be used in a web service for non command-line applications.
 
 I hope it's useful to someone else.
 
@@ -36,8 +35,6 @@ One
 Niner
 Zulu
 ```
-
-It's a good idea to use single quotes if you have characters like asterisk, that can be misinterpreted by the shell.
 
 ## License
 Apache 2.0.

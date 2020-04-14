@@ -6,11 +6,8 @@
 
 const LCASE_A: u8 = 97; // ASCII value for 'a'
 const ONE: u8 = 48; // ASCII value for '0'
-const NEWLINE: u8 = 10; //ASCII value for newline
 
-pub fn nato_spell(source_text: &String) -> Vec<String> {
-    // Array of tuples representing each letter with its official NATO call.
-    let letter_symbol_table = 
+pub const LETTER_SYMBOL_TABLE: [(char,&str); 26] = 
                        [('a', "Alfa"), ('b', "Bravo"), ('c', "Charlie"), ('d', "Delta"),
                         ('e', "Echo"), ('f', "Foxtrot"), ('g', "Golf"), ('h', "Hotel"),
                         ('i', "India"), ('j', "Juliett"), ('k', "Kilo"), ('l', "Lima"),
@@ -20,38 +17,45 @@ pub fn nato_spell(source_text: &String) -> Vec<String> {
                         ('y', "Yankee"), ('z', "Zulu")
                         ];
 
-    // Numbers are spelled verbally without special representation.
-    let number_symbol_table = 
+// Numbers are spelled verbally without special representation.
+pub const NUMBER_SYMBOL_TABLE: [(char, &str); 10] = 
                        [('0', "Zero"), ('1', "One"), ('2', "Two"), ('3', "Three"), ('4', "Four"),
                         ('5', "Five"), ('6', "Six"), ('7', "Seven"), ('8', "Eight"), ('9', "Niner")];
 
+pub const SYMBOL_TABLE: [(char, &str); 12] = 
+                        [('-', "Dash"), ('_', "Underscore"), ('$', "Dollar"), ('.', "Dot"), 
+                         ('&', "Ampersand"), ('#', "Pound"), ('*', "Asterisk"), ('%', "Percent"),
+                         ('!', "Exclamation"), (' ', "Space"), ('/', "Slash"), ('\\', "Backslash")
+                        ];
+
+pub fn nato_spell(source_text: &String) -> Vec<String> {
     //Building return vector
     let mut ret: Vec<String> = Vec::with_capacity(source_text.len());
     
     // Instead of sequentially looking for matches in a table, or match against each character,
     // we use the ASCII value minus its baseline as direct index into the array, which is much faster.
-    // We only match for special cases (symbols).
+    // We only loop match for special cases (symbols).
+    // Anything that is not an ASCII letter, a number or a symbol is returned as "(not implemented)".
+
     for c in source_text.to_ascii_lowercase().chars() {
         if c >= 'a' && c <= 'z' {
             let i: usize = (c as u8 - LCASE_A) as usize ;
-            ret.push(letter_symbol_table[i].1.to_string());
+            ret.push(LETTER_SYMBOL_TABLE[i].1.to_string());
         } else if c >= '0' && c <= '9' {
             let i: usize = (c as u8 - ONE) as usize ;
-            ret.push(number_symbol_table[i].1.to_string());
-        } else if (c as u8) != NEWLINE { 
-            match c {
-            '-' => ret.push("Dash".to_string()),
-            '_' => ret.push("Underscore".to_string()),
-            '$' => ret.push("Dollar".to_string()),
-            '.' => ret.push("Dot".to_string()),
-            '&' => ret.push("Ampersand".to_string()),
-            '#' => ret.push("Pound".to_string()),
-            '*' => ret.push("Asterisk".to_string()),
-            '%' => ret.push("Percent".to_string()),
-            '!' => ret.push("Exclamation".to_string()),
-            ' ' => ret.push("Space".to_string()),
-            _   => ret.push("(not represented)".to_string()),
-            } 
+            ret.push(NUMBER_SYMBOL_TABLE[i].1.to_string());
+        } else {
+            let mut found_in_symbols = false;
+            for (d, s) in &SYMBOL_TABLE {
+                if &c == d {
+                    ret.push(s.to_string());
+                    found_in_symbols = true;
+                    break;
+                }
+            }
+            if ! found_in_symbols {
+                ret.push("(not implemented)".to_string());
+            }
         }
     }
     ret 
@@ -63,7 +67,8 @@ mod tests {
 
     #[test]
     fn test_nato_spell() {
-        let s = String::from("$&1Fa_ ");
-        assert_eq!(nato_spell(&s), ["Dollar", "Ampersand", "One", "Foxtrot", "Alfa", "Underscore", "Space"]);
+        let s = String::from("/$&1Fa_ \\á");
+        assert_eq!(nato_spell(&s), ["Slash", "Dollar", "Ampersand", "One", "Foxtrot", "Alfa", 
+                                    "Underscore", "Space", "Backslash", "(not implemented)"]);
     }
 }
