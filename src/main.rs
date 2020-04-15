@@ -1,8 +1,7 @@
 // Phonetic. A program to convert an interactive text input into its components
-// using the NATO phonetic alphabet. This is useful on phone conversations with 
-// customer service people, if you need to spell something.
+// using the NATO phonetic alphabet, or morse code when used with -m. 
 //
-// usage: phonetic <text>
+// usage: phonetic [-m] <text>
 
 use std::env;
 

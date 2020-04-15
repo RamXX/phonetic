@@ -1,4 +1,4 @@
-
+// Module implementing business logic.
 
 const LCASE_A: u8 = 97; // ASCII value for 'a'
 const ONE: u8 = 48; // ASCII value for '0'
@@ -65,7 +65,7 @@ pub fn nato_spell(source_text: &String) -> Vec<String> {
     ret 
 }
 
-// morse() will return a vector of Strings with the morse representation for each
+// phonetic::morse() will return a vector of Strings with the morse representation for each
 // input character. It leverages the same tables already present for the NATO spelling function.
 
 pub fn morse(source_text: &String) -> Vec<String> {
