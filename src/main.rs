@@ -6,21 +6,28 @@
 
 use std::env;
 
-mod textutil;
+mod phonetic;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     let nargs = args.len();
 
-    if nargs > 1 {
+    if nargs > 1 && &args[1] != "-m" {
         for i in 1..nargs {
-            println!("---");
-            for p in textutil::nato_spell(&args[i]).iter() {
+            println!("\n[Word \"{}\" follows next]", &args[i]);
+            for p in phonetic::nato_spell(&args[i]).iter() {
+                println!("{}", p);
+            }
+        }
+    } else if nargs > 2 && &args[1] == "-m" {
+        for i in 2..nargs {
+            println!("\n[Word \"{}\" follows next]", &args[i]);
+            for p in phonetic::morse(&args[i]).iter() {
                 println!("{}", p);
             }
         }
     } else {
-        println!("USAGE: phonetic <text>");
+        println!("USAGE: phonetic [-n] <text>");
     };
 }
 

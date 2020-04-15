@@ -3,10 +3,17 @@ name = "phonetic"
 version = "0.2.0"
 authors = ["Ramiro Salas <github@ramirosalas.com>"]
 edition = "2018"
-license = "Apache 2.0"
+license = "Apache-2.0"
 readme = "README.md"
-keywords = ["nato", "alphabet", "text"]
+keywords = ["nato", "alphabet", "morse"]
+description = "Takes a string and returns either its NATO alphabet spelling, or its morse code equivalent"
+homepage = "https://github.com/RamXX/phonetic"
+repository = "https://github.com/RamXX/phonetic"
+categories = ["parsing", "text-processing", "value-formatting", "command-line-utilities"]
+publish = false
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[badges]
+travis-ci = { repository = "RamXX/phonetic", branch = "master" }
+maintenance = { status = "passively-maintained" }
 
 [dependencies]

@@ -1,12 +1,20 @@
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Travis CI](https://travis-ci.org/RamXX/phonetic.svg?branch=master)](https://travis-ci.org/github/RamXX/phonetic)
 # Phonetic
 
-Phonetic is a small command line utility written in Rust that takes a text input and prints out the corresponding word for each one of its letters as described in the [NATO Phonetic Alphabet](https://www.nato.int/nato_static_fl2014/assets/pdf/pdf_2018_01/20180111_nato-alphabet-sign-signal.pdf).
+Phonetic is a small command line utility written in Rust that takes a text input and prints out the corresponding word for each one of its characters, either:
+
+1. As described in the [NATO Phonetic Alphabet](https://www.nato.int/nato_static_fl2014/assets/pdf/pdf_2018_01/20180111_nato-alphabet-sign-signal.pdf), when no other arguments are passed, or
+2. As its equivalent in morse code when the `-m` argument is passed.
 
 I made this as I grew frustrated when trying to spell reservation codes over the phone to customer service representatives, and never completely learning the proper words for each letter.
 
-Regular numbers and a few common symbols are also spelled out.
+The morse code functionality was added later mostly to leverage the array of tuples I already had for that effect.
 
-The main function with the business logic is in a separate module and can  easily be used in a web service for non command-line applications.
+In NATO mode, regular numbers and a few common symbols are also spelled out. These are not officially part of the NATO alphabet, so they are provided as a convenience.
+
+In morse mode, only letters and numbers are printed out.
+
+The main functions with the business logic are in a separate module and can easily be imported to use in a web service if needed.
 
 I hope it's useful to someone else.
 
@@ -20,13 +28,24 @@ Build with `cargo build --release`.
 
 If you are on Mac or Linux, move the executable to a directory in your path for easy access: `mv target/release/phonetic /usr/local/bin`.
 
+To run the unit tests, use `cargo tests`, where you should get an output like this:
+
+```
+running 2 tests
+test phonetic::tests::test_morse ... ok
+test phonetic::tests::test_nato_spell ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+```
+
 ## Using
-`phonetic <text>`
+`phonetic [-m] <text>`
 
 Example:
 ```
 phonetic 'aBc-19Z'
----
+
+[Word "aBc-19Z" follows next]
 Alfa
 Bravo
 Charlie
@@ -35,6 +54,23 @@ One
 Niner
 Zulu
 ```
+
+For morse code:
+
+```
+phonetic -m 'aBc-19Z'
+
+[Word "aBc-19Z" follows next]
+.-
+-...
+-.-.
+(not implemented)
+.----
+----.
+--..
+```
+## Disclaimer
+This software is provided as-is. I don't make any assurances on correctness, so please don't use it for anything critical.
 
 ## License
 Apache 2.0.
