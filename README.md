@@ -69,6 +69,18 @@ phonetic -m 'aBc-19Z'
 ----.
 --..
 ```
+
+## Documentation
+You can browse the module documentation with 
+
+```
+cargo doc --open
+```
+
+## Limitations
+Given that we use env::args() to collect the input, we inherit a known issue where the command can panic if 
+it receives an invalid Unicode character as input. I should look into replacing this for a more sophisticated library like [Clap](https://clap.rs/) or similar in the future.
+
 ## Disclaimer
 This software is provided as-is. I don't make any assurances on correctness, so please don't use it for anything critical.
 

@@ -1,8 +1,18 @@
-// Module implementing business logic.
+#![doc(html_root_url = "https://docs.rs/phonetic/")]
 
-const LCASE_A: u8 = 97; // ASCII value for 'a'
-const ONE: u8 = 48; // ASCII value for '0'
+//! # Phonetic
+//! Phonetic is a crate with two functions, **nato_spell** and **morse**
+//! where, given an input string, they return either the NATO spelling or
+//! morse code equivalent for the input. 
+//! 
 
+/// ASCII value for 'a'
+const LCASE_A: usize = 97; 
+
+/// ASCII value for '0'
+const ZERO: usize = 48; 
+
+/// Array of tuples with letter, NATO representation, and morse code for each.
 const LETTER_SYMBOL_TABLE: [(char, &str, &str); 26] = 
                        [('a', "Alfa", ".-"), ('b', "Bravo", "-..."), ('c', "Charlie", "-.-."), ('d', "Delta", "-.."),
                         ('e', "Echo", "."), ('f', "Foxtrot", "..-."), ('g', "Golf", "--."), ('h', "Hotel", "...."),
@@ -13,25 +23,37 @@ const LETTER_SYMBOL_TABLE: [(char, &str, &str); 26] =
                         ('y', "Yankee", "-.--"), ('z', "Zulu", "--..")
                         ];
 
-// Numbers are spelled verbally without special representation.
+/// Array of tuples with number, NATO representation, and morse code for each. 
+/// Numbers in NATO mode are spelled verbally without special representation.
 const NUMBER_SYMBOL_TABLE: [(char, &str, &str); 10] = 
                        [('0', "Zero", "-----"), ('1', "One", ".----"), ('2', "Two", "..---"), ('3', "Three", "...--"), 
                         ('4', "Four", "....-"), ('5', "Five", "....."), ('6', "Six", "-...."), ('7', "Seven", "--..."), 
                         ('8', "Eight", "---.."), ('9', "Niner", "----.")];
 
+/// Array of tuples with symbol and pronunciation for each.
+/// A few symbols are supported for convenience as standard English spelling. These are **NOT**
+/// officially part of the NATO alphabet.
 const SYMBOL_TABLE: [(char, &str); 12] = 
                         [('-', "Dash"), ('_', "Underscore"), ('$', "Dollar"), ('.', "Dot"), 
                          ('&', "Ampersand"), ('#', "Pound"), ('*', "Asterisk"), ('%', "Percent"),
                          ('!', "Exclamation"), (' ', "Space"), ('/', "Slash"), ('\\', "Backslash")
                         ];
 
-//
-// nato_spell: expects a reference to a unicode string, and returns
-// a vector of strings corresponding to the respective NATO codes for each character.
-// If the character does not have a match, it will return "(not represented)".
-// A few symbols are supported for convenience as standard English spelling. These are NOT
-// officially part of the NATO alphabet.
-//
+///
+/// **nato_spell**: expects a reference to a unicode string, and returns
+/// a vector of strings corresponding to the respective NATO codes for each character.
+/// If the character does not have a match, it will return "(not implemented)".
+///
+/// A few symbols are supported for convenience as standard English spelling. These are **NOT**
+/// officially part of the NATO alphabet.
+///
+/// ### Example
+/// ```rust
+/// let s = String::from("/$&1Fa_ \\á");
+/// assert_eq!(nato_spell(&s), ["Slash", "Dollar", "Ampersand", "One", "Foxtrot", "Alfa", 
+/// "Underscore", "Space", "Backslash", "(not implemented)"]);
+/// ```
+///
 pub fn nato_spell(source_text: &String) -> Vec<String> {
     //Building return vector
     let mut ret: Vec<String> = Vec::with_capacity(source_text.len());
@@ -43,10 +65,10 @@ pub fn nato_spell(source_text: &String) -> Vec<String> {
 
     for c in source_text.to_ascii_lowercase().chars() {
         if c >= 'a' && c <= 'z' {
-            let i: usize = (c as u8 - LCASE_A) as usize ;
+            let i: usize = c as usize - LCASE_A ;
             ret.push(LETTER_SYMBOL_TABLE[i].1.to_string());
         } else if c >= '0' && c <= '9' {
-            let i: usize = (c as u8 - ONE) as usize ;
+            let i: usize = c as usize - ZERO ;
             ret.push(NUMBER_SYMBOL_TABLE[i].1.to_string());
         } else {
             let mut found_in_symbols = false;
@@ -65,18 +87,27 @@ pub fn nato_spell(source_text: &String) -> Vec<String> {
     ret 
 }
 
-// phonetic::morse() will return a vector of Strings with the morse representation for each
-// input character. It leverages the same tables already present for the NATO spelling function.
+///
+/// **morse**: expects a reference to a unicode string, and returns
+/// a vector of strings corresponding to the respective ITU morse codes for each character.
+/// If the character does not have a match, it will return "(not implemented)".
+///
+/// ### Example
+/// ```rust
+/// let s = String::from("18Jk0-F");
+///       assert_eq!(morse(&s), [".----", "---..", ".---", "-.-", "-----", "(not implemented)", "..-."]);
+/// ```
+///
 
 pub fn morse(source_text: &String) -> Vec<String> {
     let mut ret: Vec<String> = Vec::with_capacity(source_text.len());
 
     for c in source_text.to_ascii_lowercase().chars() {
         if c >= 'a' && c <= 'z' {
-            let i: usize = (c as u8 - LCASE_A) as usize ;
+            let i: usize = c as usize - LCASE_A ;
             ret.push(LETTER_SYMBOL_TABLE[i].2.to_string());
         } else if c >= '0' && c <= '9' {
-            let i: usize = (c as u8 - ONE) as usize ;
+            let i: usize = c as usize - ZERO ;
             ret.push(NUMBER_SYMBOL_TABLE[i].2.to_string());
         } else {
                 ret.push("(not implemented)".to_string());

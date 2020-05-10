@@ -1,12 +1,11 @@
-// Phonetic. A program to convert an interactive text input into its components
-// using the NATO phonetic alphabet, or morse code when used with -m. 
-//
-// usage: phonetic [-m] <text>
-
 use std::env;
 
 mod phonetic;
 
+/// Phonetic. A program to convert an interactive text input into its components
+/// using the NATO phonetic alphabet, or morse code when used with -m. 
+///
+/// usage: phonetic [-m] <text>
 fn main() {
     let args: Vec<String> = env::args().collect();
     let nargs = args.len();
@@ -26,7 +25,7 @@ fn main() {
             }
         }
     } else {
-        println!("USAGE: phonetic [-n] <text>");
+        println!("USAGE: phonetic [-m] <text>");
     };
 }
 
