@@ -4,19 +4,19 @@
 Phonetic is a small command line utility written in Rust that takes a text input and prints out the corresponding word for each one of its characters, either:
 
 1. As described in the [NATO Phonetic Alphabet](https://www.nato.int/nato_static_fl2014/assets/pdf/pdf_2018_01/20180111_nato-alphabet-sign-signal.pdf), when no other arguments are passed, or
-2. As its equivalent in morse code when the `-m` argument is passed.
+2. As its equivalent in ITU Morse code when the `-m` argument is passed.
 
-I made this as I grew frustrated when trying to spell reservation codes over the phone to customer service representatives, and never completely learning the proper words for each letter.
+I made this as I grew frustrated when trying to spell reservation codes over the phone to customer service representatives, while never completely memorizing the proper words for each letter.
 
-The morse code functionality was added later mostly to leverage the array of tuples I already had for that effect.
+The Morse code functionality was added later mostly to leverage the array of tuples I already had for that effect.
 
-In NATO mode, regular numbers and a few common symbols are also spelled out. These are not officially part of the NATO alphabet, so they are provided as a convenience.
+In NATO mode, regular numbers and a few common symbols are also spelled out. These are **not** officially part of the NATO alphabet, so they are provided as a convenience.
 
-In morse mode, only letters and numbers are printed out.
+In Morse mode, only letters and numbers are printed out. Any character not implemented will return the `(not implemented)` string.
 
 The main functions with the business logic are in a separate module and can easily be imported to use in a web service if needed.
 
-I hope it's useful to someone else.
+I hope this work is useful to someone else.
 
 ## Building
 
@@ -78,7 +78,7 @@ cargo doc --open
 ```
 
 ## Limitations
-Given that we use env::args() to collect the input, we inherit a known issue where the command can panic if 
+Given that we use `env::args()` to collect the input, we inherit a known issue where the command can panic if 
 it receives an invalid Unicode character as input. I should look into replacing this for a more sophisticated library like [Clap](https://clap.rs/) or similar in the future.
 
 ## Disclaimer
